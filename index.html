@@ -47,10 +47,7 @@
       color: var(--ink);
     }
 
-    h1 em {
-      font-style: italic;
-      color: var(--ink-light);
-    }
+    h1 em { font-style: italic; color: var(--ink-light); }
 
     .subtitle {
       font-family: 'Inter', sans-serif;
@@ -72,6 +69,19 @@
       color: var(--ink);
     }
 
+    /* Section titles — bigger h2 for major parts */
+    .section-title {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      line-height: 1.12;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.5em;
+      color: var(--ink);
+    }
+
+    .section-title em { font-style: italic; color: var(--ink-light); }
+
     h3 {
       font-family: 'Inter', sans-serif;
       font-size: 0.75rem;
@@ -82,10 +92,7 @@
       margin-bottom: 0.8em;
     }
 
-    p {
-      margin-bottom: 1.5em;
-      color: var(--ink-light);
-    }
+    p { margin-bottom: 1.5em; color: var(--ink-light); }
 
     p.lead {
       font-size: 1.15rem;
@@ -107,85 +114,45 @@
 
     .gear-divider svg { flex-shrink: 0; overflow: visible; }
 
-    @keyframes spin-cw {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    @keyframes spin-ccw {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
+    .gear-divider.major { padding: 80px 0; }
 
-    .spin-cw  { animation: spin-cw  30s linear infinite; transform-origin: center; }
+    @keyframes spin-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+    .spin-cw { animation: spin-cw 30s linear infinite; transform-origin: center; }
     .spin-ccw { animation: spin-ccw 22s linear infinite; transform-origin: center; }
-    .spin-cw-slow  { animation: spin-cw  50s linear infinite; transform-origin: center; }
+    .spin-cw-slow { animation: spin-cw 50s linear infinite; transform-origin: center; }
     .spin-ccw-slow { animation: spin-ccw 40s linear infinite; transform-origin: center; }
-    .spin-cw-fast  { animation: spin-cw  16s linear infinite; transform-origin: center; }
+    .spin-cw-fast { animation: spin-cw 16s linear infinite; transform-origin: center; }
 
     /* ── Diagrams ── */
-    .diagram {
-      margin: 48px 0;
-      display: flex;
-      justify-content: center;
-    }
-
-    .diagram svg {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
-    }
+    .diagram { margin: 48px 0; display: flex; justify-content: center; }
+    .diagram svg { width: 100%; max-width: 600px; height: auto; }
 
     .territory-label {
       font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
     }
 
     .territory-sublabel {
       font-family: 'Inter', sans-serif;
-      font-size: 10px;
-      font-weight: 300;
+      font-size: 10px; font-weight: 300;
     }
 
-    @keyframes pulse-ring {
-      0%, 100% { opacity: 0.15; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(1.03); }
-    }
-    .pulse { animation: pulse-ring 4s ease-in-out infinite; }
+    @keyframes dash-flow { to { stroke-dashoffset: -20; } }
+    .flow-line { stroke-dasharray: 6 4; animation: dash-flow 1.5s linear infinite; }
 
-    @keyframes dash-flow {
-      to { stroke-dashoffset: -20; }
-    }
-    .flow-line {
-      stroke-dasharray: 6 4;
-      animation: dash-flow 1.5s linear infinite;
-    }
+    /* ── Lists ── */
+    .clean-list { list-style: none; padding: 0; margin: 0 0 1.5em 0; }
+    .clean-list li { padding: 0.4em 0; color: var(--ink-light); border-bottom: 1px solid rgba(26, 23, 20, 0.06); }
+    .clean-list li:last-child { border-bottom: none; }
 
     /* ── Sections ── */
     .section { margin-bottom: 0; }
 
-    /* ── List ── */
-    .clean-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5em 0;
-    }
-    .clean-list li {
-      padding: 0.4em 0;
-      color: var(--ink-light);
-      border-bottom: 1px solid rgba(26, 23, 20, 0.06);
-    }
-    .clean-list li:last-child { border-bottom: none; }
-
     /* ── Timeline / Horizons ── */
-    .horizons {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-      margin: 20px 0 0;
-    }
+    .horizons { display: grid; grid-template-columns: 1fr; gap: 48px; margin: 20px 0 0; }
 
     .horizon {
       padding-left: 28px;
@@ -195,68 +162,181 @@
 
     .horizon::before {
       content: '';
-      position: absolute;
-      left: -5px;
-      top: 2px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      position: absolute; left: -5px; top: 2px;
+      width: 8px; height: 8px; border-radius: 50%;
       background: var(--accent);
     }
 
-    .horizon p {
-      margin-bottom: 0.8em;
-    }
+    .horizon p { margin-bottom: 0.8em; }
 
     .horizon-label {
       font-family: 'Inter', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 4px;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px;
     }
 
-    .horizon h2 {
-      margin-bottom: 0.4em;
-      font-size: 1.4rem;
+    .horizon h2 { margin-bottom: 0.4em; font-size: 1.4rem; }
+
+    /* ── Capability cards ── */
+    .capability-grid { display: grid; grid-template-columns: 1fr; gap: 32px; margin: 32px 0 1.5em; }
+
+    .capability {
+      padding: 24px 28px;
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 4px;
+      background: rgba(26, 23, 20, 0.015);
     }
 
-    /* ── Navigation ── */
-    .site-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 24px;
-      margin: 48px 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .site-nav li a {
+    .capability-label {
       font-family: 'Inter', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 400;
-      color: var(--ink-faint);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(26, 23, 20, 0.12);
-      padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 6px;
     }
 
-    .site-nav li a:hover {
-      color: var(--ink);
-      border-bottom-color: var(--ink);
+    .capability h2 { font-size: 1.3rem; margin-bottom: 0.4em; }
+    .capability p { font-size: 0.95rem; margin-bottom: 0.6em; }
+    .capability p:last-child { margin-bottom: 0; }
+
+    /* ── Principle blocks ── */
+    .principle {
+      margin: 40px 0;
+      padding: 28px 28px 28px 32px;
+      border-left: 2px solid var(--accent);
+      background: rgba(196, 168, 130, 0.04);
+    }
+
+    .principle h2 { font-size: 1.3rem; margin-bottom: 0.4em; }
+    .principle p { font-size: 0.95rem; margin-bottom: 0.6em; }
+    .principle p:last-child { margin-bottom: 0; }
+
+    /* ── Callout box ── */
+    .callout {
+      margin: 40px 0; padding: 32px;
+      border: 1px solid rgba(196, 168, 130, 0.3);
+      border-radius: 4px;
+      background: rgba(196, 168, 130, 0.06);
+    }
+
+    .callout p {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.3rem; line-height: 1.5;
+      color: var(--ink); margin-bottom: 0; text-align: center;
+    }
+
+    /* ── Anti-pattern callout ── */
+    .antipattern {
+      margin: 32px 0; padding: 24px 28px;
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 4px;
+      background: rgba(26, 23, 20, 0.02);
+    }
+
+    .antipattern-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 8px;
+    }
+
+    .antipattern p { font-size: 0.95rem; margin-bottom: 0.6em; }
+    .antipattern p:last-child { margin-bottom: 0; }
+
+    /* ── Comparison ── */
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0 1.5em; }
+
+    .comparison-col {
+      padding: 20px;
+      border: 1px solid rgba(26, 23, 20, 0.06);
+      border-radius: 4px;
+    }
+
+    .comparison-col h3 { margin-bottom: 0.6em; }
+    .comparison-col p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.5em; }
+    .comparison-col p:last-child { margin-bottom: 0; }
+
+    /* ── Context layers ── */
+    .context-layers { display: grid; grid-template-columns: 1fr; gap: 28px; margin: 32px 0 1.5em; }
+
+    .context-layer {
+      padding: 24px 28px;
+      border-left: 2px solid rgba(26, 23, 20, 0.08);
+      position: relative;
+    }
+
+    .context-layer::before {
+      content: '';
+      position: absolute; left: -5px; top: 24px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .context-layer h2 { font-size: 1.3rem; margin-bottom: 0.4em; }
+    .context-layer p { font-size: 0.95rem; margin-bottom: 0.6em; }
+    .context-layer p:last-child { margin-bottom: 0; }
+
+    .layer-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px;
+    }
+
+    /* ── Stack layer sections ── */
+    .layer-section {
+      margin: 48px 0; padding: 32px;
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 4px;
+      background: rgba(26, 23, 20, 0.015);
+    }
+    .layer-section.highlighted {
+      border-color: rgba(26, 23, 20, 0.15);
+      background: rgba(26, 23, 20, 0.03);
+    }
+    .layer-section h2 { font-size: 1.4rem; margin-bottom: 0.5em; }
+    .layer-section p { font-size: 0.95rem; margin-bottom: 0.8em; }
+    .layer-section p:last-child { margin-bottom: 0; }
+
+    .interface-note {
+      margin: 24px 0; padding: 20px 24px;
+      border-left: 2px solid var(--accent);
+      background: rgba(196, 168, 130, 0.04);
+    }
+    .interface-note p { font-size: 0.9rem; margin-bottom: 0.5em; }
+    .interface-note p:last-child { margin-bottom: 0; }
+    .interface-note strong { color: var(--accent); }
+
+    /* ── Lifecycle steps ── */
+    .lifecycle { display: grid; grid-template-columns: 1fr; gap: 28px; margin: 32px 0 1.5em; }
+
+    .lifecycle-step {
+      padding: 24px 28px;
+      border-left: 2px solid rgba(26, 23, 20, 0.08);
+      position: relative;
+    }
+    .lifecycle-step::before {
+      content: '';
+      position: absolute; left: -5px; top: 24px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+    }
+    .lifecycle-step h2 { font-size: 1.3rem; margin-bottom: 0.4em; }
+    .lifecycle-step p { font-size: 0.95rem; margin-bottom: 0.6em; }
+    .lifecycle-step p:last-child { margin-bottom: 0; }
+
+    .step-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px;
     }
 
     /* ── Colophon ── */
     .colophon {
-      margin-top: 100px;
-      padding-top: 40px;
+      margin-top: 100px; padding-top: 40px;
       border-top: 1px solid rgba(26, 23, 20, 0.08);
-      font-size: 0.78rem;
-      color: var(--ink-faint);
-      letter-spacing: 0.04em;
+      font-size: 0.78rem; color: var(--ink-faint); letter-spacing: 0.04em;
     }
 
     /* ── Responsive ── */
@@ -264,6 +344,8 @@
       .page { padding: 80px 20px 120px; }
       .subtitle { margin-bottom: 60px; }
       .gear-divider { padding: 40px 0; }
+      .gear-divider.major { padding: 60px 0; }
+      .comparison { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -272,110 +354,81 @@
   <!-- Gear definitions (reusable) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
     <defs>
-      <!-- 8-tooth gear -->
       <path id="gear8" d="M 84.33 43.17 L 96.48 43.01 L 96.48 56.99 L 84.33 56.83 L 79.10 69.44 L 87.81 77.92 L 77.92 87.81 L 69.44 79.10 L 56.83 84.33 L 56.99 96.48 L 43.01 96.48 L 43.17 84.33 L 30.56 79.10 L 22.08 87.81 L 12.19 77.92 L 20.90 69.44 L 15.67 56.83 L 3.52 56.99 L 3.52 43.01 L 15.67 43.17 L 20.90 30.56 L 12.19 22.08 L 22.08 12.19 L 30.56 20.90 L 43.17 15.67 L 43.01 3.52 L 56.99 3.52 L 56.83 15.67 L 69.44 20.90 L 77.92 12.19 L 87.81 22.08 L 79.10 30.56 Z"/>
-      <!-- 12-tooth gear -->
       <path id="gear12" d="M 86.68 45.17 L 96.77 45.33 L 96.77 54.67 L 86.68 54.83 L 84.18 64.16 L 92.84 69.34 L 88.17 77.43 L 79.35 72.52 L 72.52 79.35 L 77.43 88.17 L 69.34 92.84 L 64.16 84.18 L 54.83 86.68 L 54.67 96.77 L 45.33 96.77 L 45.17 86.68 L 35.84 84.18 L 30.66 92.84 L 22.57 88.17 L 27.48 79.35 L 20.65 72.52 L 11.83 77.43 L 7.16 69.34 L 15.82 64.16 L 13.32 54.83 L 3.23 54.67 L 3.23 45.33 L 13.32 45.17 L 15.82 35.84 L 7.16 30.66 L 11.83 22.57 L 20.65 27.48 L 27.48 20.65 L 22.57 11.83 L 30.66 7.16 L 35.84 15.82 L 45.17 13.32 L 45.33 3.23 L 54.67 3.23 L 54.83 13.32 L 64.16 15.82 L 69.34 7.16 L 77.43 11.83 L 72.52 20.65 L 79.35 27.48 L 88.17 22.57 L 92.84 30.66 L 84.18 35.84 Z"/>
-      <!-- 6-tooth gear -->
       <path id="gear6" d="M 81.88 41.46 L 96.07 40.71 L 96.07 59.29 L 81.88 58.54 L 73.33 73.33 L 81.08 85.26 L 64.99 94.55 L 58.54 81.88 L 41.46 81.88 L 35.01 94.55 L 18.92 85.26 L 26.67 73.33 L 18.12 58.54 L 3.93 59.29 L 3.93 40.71 L 18.12 41.46 L 26.67 26.67 L 18.92 14.74 L 35.01 5.45 L 41.46 18.12 L 58.54 18.12 L 64.99 5.45 L 81.08 14.74 L 73.33 26.67 Z"/>
-      <!-- 10-tooth gear -->
       <path id="gear10" d="M 85.56 44.37 L 96.67 44.40 L 96.67 55.60 L 85.56 55.63 L 82.08 66.34 L 91.04 72.90 L 84.46 81.96 L 75.46 75.46 L 66.34 82.08 L 69.74 92.65 L 59.10 96.11 L 55.63 85.56 L 44.37 85.56 L 40.90 96.11 L 30.26 92.65 L 33.66 82.08 L 24.54 75.46 L 15.54 81.96 L 8.96 72.90 L 17.92 66.34 L 14.44 55.63 L 3.33 55.60 L 3.33 44.40 L 14.44 44.37 L 17.92 33.66 L 8.96 27.10 L 15.54 18.04 L 24.54 24.54 L 33.66 17.92 L 30.26 7.35 L 40.90 3.89 L 44.37 14.44 L 55.63 14.44 L 59.10 3.89 L 69.74 7.35 L 66.34 17.92 L 75.46 24.54 L 84.46 18.04 L 91.04 27.10 L 82.08 33.66 Z"/>
-      <!-- 16-tooth gear -->
       <path id="gear16" d="M 88.81 46.18 L 96.87 46.50 L 96.87 53.50 L 88.81 53.82 L 87.32 61.32 L 94.64 64.70 L 91.96 71.17 L 84.39 68.38 L 80.15 74.74 L 85.62 80.66 L 80.66 85.62 L 74.74 80.15 L 68.38 84.39 L 71.17 91.96 L 64.70 94.64 L 61.32 87.32 L 53.82 88.81 L 53.50 96.87 L 46.50 96.87 L 46.18 88.81 L 38.68 87.32 L 35.30 94.64 L 28.83 91.96 L 31.62 84.39 L 25.26 80.15 L 19.34 85.62 L 14.38 80.66 L 19.85 74.74 L 15.61 68.38 L 8.04 71.17 L 5.36 64.70 L 12.68 61.32 L 11.19 53.82 L 3.13 53.50 L 3.13 46.50 L 11.19 46.18 L 12.68 38.68 L 5.36 35.30 L 8.04 28.83 L 15.61 31.62 L 19.85 25.26 L 14.38 19.34 L 19.34 14.38 L 25.26 19.85 L 31.62 15.61 L 28.83 8.04 L 35.30 5.36 L 38.68 12.68 L 46.18 11.19 L 46.50 3.13 L 53.50 3.13 L 53.82 11.19 L 61.32 12.68 L 64.70 5.36 L 71.17 8.04 L 68.38 15.61 L 74.74 19.85 L 80.66 14.38 L 85.62 19.34 L 80.15 25.26 L 84.39 31.62 L 91.96 28.83 L 94.64 35.30 L 87.32 38.68 Z"/>
     </defs>
   </svg>
 
   <div class="page">
 
-    <!-- ═══ Title ═══ -->
-    <h1>What is<br>Agent <em>Intelligence</em></h1>
-    <p class="subtitle">Sauna</p>
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  I. WHAT IS AGENT INTELLIGENCE                      ║
+         ╚══════════════════════════════════════════════════════╝ -->
 
-    <!-- ═══ Opening ═══ -->
+    <h1>What is<br>Agent <em>Intelligence</em></h1>
+    <p class="subtitle">AI Agents</p>
+
     <div class="section">
       <p class="lead">
         Agent intelligence is the <strong>inference layer</strong>. It's how a current context window generates the desired outcome, and how that context window updates its environment to prime the next one. The system prompt architecture, the decision logic, the operating workflow. The reasoning that turns a pile of context and tools into useful, trustworthy action, and then leaves the world in a better state for the next run.
       </p>
     </div>
 
-    <!-- ── Gear Divider: meshing pair ── -->
+    <!-- Gear divider -->
     <div class="gear-divider">
       <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
-        <g class="spin-cw" opacity="0.16">
-          <use href="#gear8" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/>
-        </g>
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
       </svg>
       <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-        <g class="spin-ccw" opacity="0.12">
-          <use href="#gear12" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
-        </g>
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
       </svg>
     </div>
 
-    <!-- ═══ The Territory ═══ -->
     <div class="section">
       <h2>The territory</h2>
       <p>
-        I like to think of Sauna as a stack with four layers. Intelligence sits second from the top: it expects a stable platform underneath and uses it to create amazing user experiences above. Everything about how tokens inform outcomes. The new programming.
+        Think of an AI agent as a stack with four layers. Intelligence sits second from the top: it expects a stable platform underneath and uses it to create amazing user experiences above. Everything about how tokens inform outcomes. The new programming.
       </p>
     </div>
 
-    <!-- ═══ The Stack: 4-Layer Chain ═══ -->
+    <!-- The Stack Diagram -->
     <div class="diagram">
       <svg viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-        <!-- Layer 1: UX / Product -->
         <rect x="110" y="10" width="300" height="56" rx="4" fill="none" stroke="var(--ink)" stroke-width="1" opacity="0.25"/>
         <text x="260" y="34" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">UX / PRODUCT</text>
         <text x="260" y="50" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">What users see and interact with</text>
 
-        <!-- Interface: UX ↔ Intelligence -->
         <line x1="260" y1="66" x2="260" y2="90" class="flow-line" stroke="var(--accent)" stroke-width="1.5" opacity="0.4"/>
 
-        <!-- Layer 2: INTELLIGENCE (highlighted) -->
         <rect x="80" y="90" width="360" height="66" rx="4" fill="var(--ink)" fill-opacity="0.05" stroke="var(--ink)" stroke-width="1.5"/>
         <text x="260" y="118" text-anchor="middle" class="territory-label" fill="var(--ink)" font-size="12">INTELLIGENCE</text>
         <text x="260" y="136" text-anchor="middle" class="territory-sublabel" fill="var(--ink-light)">Tokens to outcomes. The new programming.</text>
 
-        <!-- Interface: Intelligence ↔ Capabilities (THE critical interface) -->
         <line x1="200" y1="156" x2="200" y2="190" class="flow-line" stroke="var(--accent)" stroke-width="2" opacity="0.7"/>
         <line x1="320" y1="156" x2="320" y2="190" class="flow-line" stroke="var(--accent)" stroke-width="2" opacity="0.7"/>
         <text x="450" y="177" class="territory-sublabel" fill="var(--accent)" font-style="italic" opacity="0.8">critical interface</text>
 
-        <!-- Layer 3: CAPABILITIES (the harness) -->
         <rect x="110" y="190" width="300" height="56" rx="4" fill="var(--ink)" fill-opacity="0.03" stroke="var(--ink)" stroke-width="1" opacity="0.35"/>
         <text x="260" y="214" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">CAPABILITIES</text>
         <text x="260" y="230" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">The harness. Inference meets infrastructure.</text>
 
-        <!-- Interface: Capabilities ↔ Infrastructure -->
         <line x1="260" y1="246" x2="260" y2="270" class="flow-line" stroke="var(--accent)" stroke-width="1" opacity="0.25"/>
 
-        <!-- Layer 4: INFRASTRUCTURE -->
         <rect x="110" y="270" width="300" height="56" rx="4" fill="var(--ink)" fill-opacity="0.02" stroke="var(--ink)" stroke-width="1" opacity="0.2"/>
         <text x="260" y="294" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">INFRASTRUCTURE</text>
         <text x="260" y="310" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">All the core stuff underneath.</text>
-
-
-
       </svg>
     </div>
 
-    <!-- ── Gear Divider: single small ── -->
     <div class="gear-divider">
       <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
-        <g class="spin-ccw-slow" opacity="0.13">
-          <use href="#gear10" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
-        </g>
+        <g class="spin-ccw-slow" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
       </svg>
     </div>
 
-    <!-- ═══ Decomposition ═══ -->
     <div class="section">
       <h2>What it contains</h2>
       <ul class="clean-list">
@@ -388,34 +441,18 @@
       </ul>
     </div>
 
-
-
-    <!-- ── Gear Divider: triple mesh ── -->
     <div class="gear-divider">
       <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
-        <g class="spin-cw" opacity="0.14">
-          <use href="#gear12" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
-        </g>
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
       </svg>
       <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
-        <g class="spin-ccw" opacity="0.11">
-          <use href="#gear8" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
-        </g>
+        <g class="spin-ccw" opacity="0.11"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
       </svg>
       <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
-        <g class="spin-cw-slow" opacity="0.12">
-          <use href="#gear10" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/>
-        </g>
+        <g class="spin-cw-slow" opacity="0.12"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/></g>
       </svg>
     </div>
 
-    <!-- ═══ The Critical Interface ═══ -->
     <div class="section">
       <h2>The critical interface</h2>
       <p>
@@ -425,138 +462,659 @@
         Intelligence expects a <strong>stable surface</strong>. It shouldn't need to worry about whether a tool is available, whether auth works, whether the sandbox is running. It just needs to know: I can call this, it will work, here's what comes back. The better that contract is, the more intelligence can focus on what actually matters: making good decisions about what to do and when.
       </p>
       <p>
-        Above us, UX and product shape what the user sees. Intelligence is invisible to the user. They experience the outcome, not the reasoning. Our job is to make the reasoning so good that the product team has a powerful engine to build on top of.
+        Above, UX and product shape what the user sees. Intelligence is invisible to the user. They experience the outcome, not the reasoning. The job of intelligence is to make the reasoning so good that the product team has a powerful engine to build on top of.
       </p>
     </div>
 
-    <!-- ── Gear Divider: meshing pair offset ── -->
-    <div class="gear-divider">
-      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
-        <g class="spin-ccw" opacity="0.15">
-          <use href="#gear6" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/>
-        </g>
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  II. WHAT AGENTS CAN ACTUALLY DO                    ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider major">
+      <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.18"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/><circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/></g>
       </svg>
-      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
-        <g class="spin-cw" opacity="0.11">
-          <use href="#gear12" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
-          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
-        </g>
+      <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.10"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
       </svg>
     </div>
 
-    <!-- ═══ Horizons ═══ -->
+    <p class="section-title">What Agents Can <em>Actually</em> Do</p>
+
     <div class="section">
-      <h2>The roadmap</h2>
+      <p class="lead">
+        There's a gap between what people <em>think</em> agents can do and what they <em>reliably</em> do. Most of the discourse lives at the extremes: either "AI will replace everything" or "it's just autocomplete." The truth is more interesting. Agents today are <strong>genuinely powerful at specific things</strong>, emerging at others, and honestly bad at a few more. Knowing the difference is the whole game.
+      </p>
+    </div>
 
-      <div class="horizons">
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
 
-        <!-- ── Short Term ── -->
-        <div class="horizon">
-          <p class="horizon-label">Short term</p>
-          <h2>Make it useful, make it measurable</h2>
-          <p>
-            FTUE and skills. The first-run experience has to land: a new user should feel the intelligence immediately. Skills are the lever, packaged workflows that make the agent powerful out of the box. Every skill we ship compounds the value of the platform.
-          </p>
-          <p>
-            Evals and observability. Right now we're flying blind. We need baselines, regression suites, and real instrumentation so we can iterate on intelligence with actual insight and evidence instead of vibes.
-          </p>
+    <div class="section">
+      <h2>Reliable today</h2>
+      <p>These are the things agents do well enough that you can trust them in production. Not perfect — but consistently useful, with failure modes you can design around.</p>
+
+      <div class="capability-grid">
+        <div class="capability">
+          <p class="capability-label">Research & Synthesis</p>
+          <h2>Turning noise into signal</h2>
+          <p>Give an agent a pile of documents, a messy inbox, or a research question, and it will produce a structured summary faster and more thoroughly than you would. Not because it's smarter — because it doesn't get bored, doesn't skim, and doesn't forget the thing on page 47.</p>
+          <p><strong>Examples:</strong> Summarize 30 investor emails. Extract action items from a week of Slack. Research a company before a meeting. Synthesize user feedback into themes.</p>
         </div>
 
-        <!-- ── Medium Term ── -->
-        <div class="horizon">
-          <p class="horizon-label">Medium term</p>
-          <h2>The world's leading context lab</h2>
-          <p>
-            Stay aligned with the industry as it grows. Context engineering is becoming the discipline, and we need to decide what to adopt, what to ignore, and where to lead. The window, the memory, the tools, the file system, the integrations: all of it is context, and intelligence is the thing that reasons over it.
-          </p>
-          <p>
-            Make Wordware the world's leading context lab. The place where the best context engineering happens, where the best patterns are discovered and shipped.
-          </p>
+        <div class="capability">
+          <p class="capability-label">Drafting & Editing</p>
+          <h2>First drafts that are actually usable</h2>
+          <p>The drafting sweet spot: agent writes 80%, human edits 20%. Works for emails, docs, proposals, updates. The key is giving enough context — tone, audience, constraints — so the draft lands close enough to be worth editing rather than rewriting.</p>
+          <p><strong>Examples:</strong> Draft a board update from bullet points. Rewrite a support article for clarity. Turn meeting notes into a follow-up email. Adapt a template to a specific case.</p>
         </div>
 
-        <!-- ── Long Term ── -->
-        <div class="horizon">
-          <p class="horizon-label">Long term</p>
-          <h2>AGI</h2>
-          <p>
-            Fucking AGI.
-          </p>
+        <div class="capability">
+          <p class="capability-label">Data Transformation</p>
+          <h2>Structure from chaos</h2>
+          <p>Agents are remarkably good at taking unstructured data and giving it shape. CSV cleanup, format conversion, extraction from natural language, categorization. Anywhere you'd normally write a script or do it manually, an agent can often handle it directly.</p>
+          <p><strong>Examples:</strong> Parse 200 resumes into a structured spreadsheet. Extract dates and amounts from contract PDFs. Normalize messy CRM data. Convert between formats.</p>
         </div>
 
+        <div class="capability">
+          <p class="capability-label">Workflow Execution</p>
+          <h2>Multi-step tasks with clear rules</h2>
+          <p>When the steps are defined and the tools are available, agents execute workflows reliably. The magic is combining steps across services — pulling from one system, transforming, pushing to another — without the human needing to context-switch between tools.</p>
+          <p><strong>Examples:</strong> Process new applicants: screen resume → draft assessment → schedule interview. Morning briefing: pull calendar + emails + Slack → synthesize → deliver summary.</p>
+        </div>
       </div>
     </div>
 
-    <!-- ═══ Horizon Timeline Diagram ═══ -->
-    <div class="diagram">
-      <svg viewBox="0 0 500 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Main timeline -->
-        <line x1="30" y1="45" x2="470" y2="45" stroke="var(--ink)" stroke-width="1" opacity="0.12"/>
-
-        <!-- Now dot -->
-        <circle cx="50" cy="45" r="5" fill="var(--accent)" opacity="0.8"/>
-        <text x="50" y="33" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">now</text>
-
-        <!-- Short -->
-        <circle cx="170" cy="45" r="3.5" fill="var(--ink)" opacity="0.2"/>
-        <text x="110" y="75" text-anchor="middle" class="territory-label" fill="var(--ink)" font-size="9">SHORT</text>
-
-        <!-- Medium -->
-        <circle cx="310" cy="45" r="3.5" fill="var(--ink)" opacity="0.15"/>
-        <text x="240" y="75" text-anchor="middle" class="territory-label" fill="var(--ink-faint)" font-size="9">MEDIUM</text>
-
-        <!-- Long -->
-        <circle cx="450" cy="45" r="3.5" fill="var(--ink)" opacity="0.1"/>
-        <text x="380" y="75" text-anchor="middle" class="territory-label" fill="var(--ink-faint)" font-size="9">LONG</text>
-
-        <!-- Progress fill -->
-        <line x1="50" y1="45" x2="170" y2="45" stroke="var(--accent)" stroke-width="2.5" opacity="0.35" stroke-linecap="round"/>
-        <line x1="170" y1="45" x2="310" y2="45" stroke="var(--accent)" stroke-width="1.5" opacity="0.15" stroke-dasharray="6 4"/>
-        <line x1="310" y1="45" x2="450" y2="45" stroke="var(--accent)" stroke-width="1" opacity="0.08" stroke-dasharray="6 4"/>
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
       </svg>
     </div>
 
-    <!-- ── Final Gear Divider ── -->
-    <div class="gear-divider" style="padding: 60px 0 0;">
-      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
-        <g class="spin-cw" opacity="0.10">
-          <use href="#gear8" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
-        </g>
-      </svg>
-      <svg width="11" height="11" viewBox="0 0 100 100" fill="none">
-        <g class="spin-ccw" opacity="0.08">
-          <use href="#gear6" fill="var(--ink)"/>
-          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
-        </g>
-      </svg>
-    </div>
-
-    <!-- ═══ Explore ═══ -->
     <div class="section">
-      <h2>Explore the domain</h2>
-      <ul class="site-nav">
-        <li><a href="what-agents-do.html">What Agents Can Do</a></li>
-        <li><a href="prompting-strategy.html">Prompting Strategy</a></li>
-        <li><a href="context-engineering.html">Context Engineering</a></li>
-        <li><a href="evals.html">Evals & Measurement</a></li>
-        <li><a href="skills.html">Skills & Recipes</a></li>
-        <li><a href="the-stack.html">The Stack</a></li>
+      <h2>Emerging</h2>
+      <p>These work sometimes, with the right scaffolding. Not reliable enough for "set and forget," but powerful enough that you should be learning them now.</p>
+
+      <div class="capability-grid">
+        <div class="capability">
+          <p class="capability-label">Multi-Step Reasoning</p>
+          <h2>Complex plans, executed</h2>
+          <p>Agents can decompose complex goals into steps and execute them in sequence. The catch: they're good at the decomposition but sometimes lose the thread during execution. Long chains of dependent actions still need checkpoints and human review.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">Monitoring & Proactive Action</p>
+          <h2>Watching and responding</h2>
+          <p>Set an agent to watch for conditions — an important email, a calendar conflict, a metric threshold — and take action when they trigger. Works well for defined triggers. Less reliable when "what to watch for" requires judgment.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">Taste & Preference Learning</p>
+          <h2>Getting to know you</h2>
+          <p>With enough examples, agents develop a model of your preferences: writing tone, decision patterns, priorities. Early but real. After 50+ interactions, the drafts start sounding like you. After 200, they anticipate your preferences before you state them.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>Not yet</h2>
+      <p>Honesty about limits builds trust. These are things people expect agents to do but where current systems genuinely struggle.</p>
+
+      <ul class="clean-list">
+        <li><strong>Novel strategy:</strong> Agents can execute strategies and evaluate options against criteria. They don't yet generate genuinely novel strategic insight. Excellent advisors, not yet independent strategists.</li>
+        <li><strong>Deep domain expertise:</strong> General knowledge is broad but shallow. In specialized domains, agents need heavy guardrails and should augment experts, not replace them.</li>
+        <li><strong>Emotional intelligence:</strong> They can be polite, empathetic in form, and context-appropriate. They don't understand what it feels like. For high-stakes emotional situations, humans are irreplaceable.</li>
+        <li><strong>Long-horizon autonomy:</strong> Multi-day, multi-phase projects with shifting requirements and ambiguous goals. Agents are session-bound thinkers. True autonomy over long time horizons is unsolved.</li>
       </ul>
     </div>
 
-    <!-- ═══ Closing ═══ -->
+    <div class="gear-divider">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.15"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/><circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The compound effect</h2>
+      <p>
+        Individual capabilities are useful. Combined capabilities are transformative. An agent that can read email is a filter. An agent that can read email <em>and</em> check your calendar <em>and</em> draft responses <em>and</em> knows your priorities? That's a chief of staff.
+      </p>
+      <p>
+        The real power lives not in any single capability, but in the <strong>compound value of capabilities working together over time</strong>. Each integration added, each preference learned, each workflow packaged makes every other capability more powerful. The graph of connections matters more than any individual node.
+      </p>
+      <p>
+        The question isn't "what can an agent do?" It's "what can an agent do <strong>that knows everything you know</strong>?"
+      </p>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  III. CONTEXT ENGINEERING                            ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider major">
+      <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.18"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <p class="section-title">Context <em>Engineering</em></p>
+
+    <div class="section">
+      <p class="lead">
+        Every major AI lab is racing to build the most intelligent model. They'll keep getting smarter — Claude, GPT, Gemini, the next hundred models. Intelligence will commoditize. It's happening already. So what doesn't commoditize? <strong>The context you give it to reason over.</strong>
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The thesis</h2>
+      <p>
+        Two identical models — same weights, same capabilities — will produce vastly different results depending on what context they're given. One has your emails, calendar, Slack, meeting history, preferences, and work patterns. The other has nothing. Same intelligence. Completely different outcomes.
+      </p>
+      <p>
+        The model is the engine. Context is the fuel. The best agent systems aren't the ones with the smartest models — they're the ones where <strong>any model becomes dramatically more useful</strong> because of the context provided.
+      </p>
+
+      <div class="callout">
+        <p>After 90 days with a well-built agent, users can't go back to a blank chat. Not because the agent is smarter. Because the agent <em>knows</em> them.</p>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>What counts as context</h2>
+      <p>Context is everything the model needs to make a good decision that isn't built into its weights. It's broader than people think.</p>
+
+      <div class="context-layers">
+        <div class="context-layer">
+          <p class="layer-label">Immediate</p>
+          <h2>The current task</h2>
+          <p>What the user just asked. The document they're looking at. The email they're replying to. This is the obvious layer — what's in front of you right now.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Session</p>
+          <h2>The conversation so far</h2>
+          <p>Previous turns in this session. What's been discussed, decided, discarded. The thread of reasoning that led here.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Personal</p>
+          <h2>Who you are</h2>
+          <p>Preferences, style, priorities, past decisions. How you like emails written. Which meetings you care about. What "urgent" means to you specifically. This layer accumulates over weeks and months.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Organizational</p>
+          <h2>Where you work</h2>
+          <p>Team structure, project status, company terminology, internal processes. Who's responsible for what. The institutional knowledge that lives in Slack threads and people's heads.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Temporal</p>
+          <h2>What's happening now</h2>
+          <p>Calendar events, deadlines, recent communications. Context has a clock. What mattered yesterday might not matter today.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Relational</p>
+          <h2>Who you're talking to</h2>
+          <p>The relationship with the recipient. Tone calibration — how you talk to your investor vs. your teammate vs. your friend. Every communication has an audience.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The compounding effect</h2>
+      <p>
+        Context engineering is different from prompt engineering because <strong>context compounds</strong>. Every interaction teaches the system something. Every email processed, every preference expressed, every correction made — it all accumulates.
+      </p>
+      <p>
+        Day 1: the agent is smart but generic. Day 30: it knows your style, your recurring meetings, your top priorities. Day 90: it anticipates what you need before you ask.
+      </p>
+      <p>
+        Intelligence you can swap — switch from Claude to GPT tomorrow, the capabilities are similar. Context you can't swap. It's yours, built over time, specific to your world.
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.15"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/><circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.11"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The window problem</h2>
+      <p>
+        Context windows are finite. Even as they grow — 128K, 1M, 10M tokens — they'll never hold everything. And bigger windows don't solve the problem; they shift it. With 1M tokens, the question isn't "will it fit?" but "will the model <em>attend</em> to the right parts?"
+      </p>
+      <p>
+        This makes context engineering a curation problem. You can't dump everything in. You have to decide: what goes in this window, for this task, at this moment? What's relevant? What's noise? What should be summarized vs. included verbatim?
+      </p>
+      <p>
+        The best context engineering is invisible. The user doesn't think about what's in the window. They just notice that the agent seems to <em>understand</em>.
+      </p>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  IV. PROMPTING STRATEGY                              ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider major">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-fast" opacity="0.14"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.18"><use href="#gear16" fill="var(--ink)"/><circle cx="50" cy="50" r="18" fill="var(--cream)"/><circle cx="50" cy="50" r="6" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.12"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <p class="section-title">Prompting <em>Strategy</em></p>
+
+    <div class="section">
+      <p class="lead">
+        A prompt is a program written in natural language. It has <strong>intent</strong> (what you want), <strong>constraints</strong> (what you don't want), and <strong>context</strong> (what the model needs to know). The difference between a good prompt and a bad one isn't cleverness — it's clarity.
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The prompting spectrum</h2>
+
+      <div class="comparison">
+        <div class="comparison-col">
+          <h3>Instruction</h3>
+          <p>"Do exactly this, in this order, with these constraints."</p>
+          <p>High control, low flexibility. Best for defined workflows, data transformation. The agent is an executor.</p>
+        </div>
+        <div class="comparison-col">
+          <h3>Collaboration</h3>
+          <p>"Here's the goal and context. Figure out the approach."</p>
+          <p>Low control, high flexibility. Best for research, exploration, creative work. The agent is a partner.</p>
+        </div>
+      </div>
+
+      <p>
+        Most production prompting lives in the middle: <strong>guided autonomy</strong>. You set the boundaries, define the goal, provide the context — then let the model choose how to get there within those constraints.
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>Seven principles</h2>
+
+      <div class="principle">
+        <h2>1. Teach, don't tell</h2>
+        <p>The best system prompts describe a <em>role</em> and a <em>way of thinking</em>, not a list of rules for every situation. "You are a careful editor who values clarity over cleverness" generalizes better than 50 editing rules. Rules are brittle. Mental models are flexible.</p>
+      </div>
+
+      <div class="principle">
+        <h2>2. Context is king</h2>
+        <p>A mediocre prompt with excellent context will outperform a brilliant prompt with no context, every time. Before optimizing your instructions, ask: does the model have everything it needs to make a good decision?</p>
+      </div>
+
+      <div class="principle">
+        <h2>3. Be specific about what "good" looks like</h2>
+        <p>"Write a good email" is almost useless. "Write a 3-paragraph email to an investor, professional but warm, acknowledging their concern about burn rate and redirecting to our runway" gives the model something to work with. Include examples when possible — they're worth more than paragraphs of instruction.</p>
+      </div>
+
+      <div class="principle">
+        <h2>4. Separate concerns</h2>
+        <p>System prompts, user prompts, and context serve different purposes. The system prompt defines character and constraints. User messages carry the immediate task. Context provides information. When these get tangled, contradictions emerge.</p>
+      </div>
+
+      <div class="principle">
+        <h2>5. Design for the failure mode</h2>
+        <p>Every prompt has a failure mode. "If you're not confident, say so and explain why" is worth more than 10 lines of happy-path instructions.</p>
+      </div>
+
+      <div class="principle">
+        <h2>6. Iterate with evidence</h2>
+        <p>Prompt development is empirical, not theoretical. Keep a test suite of inputs and expected outputs. When you change something, run the suite. Intuition helps you write the first draft. Evidence helps you write the tenth.</p>
+      </div>
+
+      <div class="principle">
+        <h2>7. Less is more (usually)</h2>
+        <p>Every additional instruction competes for attention in the context window. The model can follow 5 clear rules better than 50 overlapping ones. The exception: examples. One good example is worth a paragraph of explanation.</p>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>Common anti-patterns</h2>
+
+      <div class="antipattern">
+        <p class="antipattern-label">The instruction novel</p>
+        <p>10,000 tokens of instructions that the model can't possibly follow all at once. Distill to principles, use examples for edge cases, and accept that some judgment calls are better left to the model.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Contradictory constraints</p>
+        <p>"Be concise but thorough. Be creative but stick to the facts." Every contradiction forces the model to choose. When you catch yourself writing "but," that's a signal to clarify your actual priority.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Negative instructions</p>
+        <p>"Don't use jargon" is processed less reliably than "use plain language that a smart non-expert would understand." Tell the model what to do, not what to avoid.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Context starvation</p>
+        <p>Brilliant instructions with no context. "Write the perfect follow-up email" without including the original email, the relationship context, or the desired outcome.</p>
+      </div>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  V. SKILLS & RECIPES                                 ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider major">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.16"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="30" height="30" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.13"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.15"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <p class="section-title">Skills & <em>Recipes</em></p>
+
+    <div class="section">
+      <p class="lead">
+        A skill is a <strong>reusable unit of intelligence</strong>. It packages domain knowledge, decision logic, and workflow steps into something an agent can execute reliably. Skills are how intelligence becomes tangible — how "make good decisions" turns into "handle this specific kind of work, well, every time."
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The recipe model</h2>
+      <p>
+        You do something manually — process a batch of applicants, prep for a recurring meeting, triage an inbox. The agent watches. After seeing you do it two or three times, it recognizes the pattern and offers to automate it.
+      </p>
+      <p>
+        The first time cost you 20 minutes. Every subsequent time costs you 10 seconds of review. That's the value proposition: <strong>intelligence that learns from your behavior and packages it for reuse</strong>.
+      </p>
+
+      <div class="callout">
+        <p>Do something twice, teach it once, never do it again.</p>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The skill lifecycle</h2>
+
+      <div class="lifecycle">
+        <div class="lifecycle-step">
+          <p class="step-label">1. Discover</p>
+          <h2>Notice the pattern</h2>
+          <p>Every skill starts as a repeated action. Discovery is about recognizing that a human is doing something an agent could learn.</p>
+        </div>
+
+        <div class="lifecycle-step">
+          <p class="step-label">2. Package</p>
+          <h2>Encode the intelligence</h2>
+          <p>Turn the pattern into a skill: define the trigger, the inputs, the steps, the decision points, the output format. Capture not just <em>what</em> someone does but <em>why</em>.</p>
+        </div>
+
+        <div class="lifecycle-step">
+          <p class="step-label">3. Ship</p>
+          <h2>Make it available</h2>
+          <p>Skills need to be discoverable — surfaced at the right moment, described clearly, easy to activate. The best skill is one the user doesn't know exists until it appears exactly when they need it.</p>
+        </div>
+
+        <div class="lifecycle-step">
+          <p class="step-label">4. Iterate</p>
+          <h2>Improve from usage</h2>
+          <p>Every execution is feedback. Skills should get better over time — not just from explicit improvement but from implicit learning through use.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>Design principles</h2>
+      <ul class="clean-list">
+        <li><strong>Composable:</strong> Skills should combine. A "meeting prep" skill that uses "email summary" and "calendar context" is more powerful than three separate tools.</li>
+        <li><strong>Context-aware:</strong> Good skills adapt — to the user's style, the recipient, the time of day, the urgency.</li>
+        <li><strong>Testable:</strong> Every skill should have clear inputs and expected outputs. If you can't test it, you can't improve it.</li>
+        <li><strong>Transparent:</strong> Users should understand what a skill does before they run it. Black-box automation erodes trust.</li>
+        <li><strong>Graceful:</strong> When a skill hits an edge case it can't handle, it should stop and ask — not forge ahead with bad output.</li>
+      </ul>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  VI. EVALS & MEASUREMENT                             ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider major">
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.15"><use href="#gear16" fill="var(--ink)"/><circle cx="50" cy="50" r="18" fill="var(--cream)"/><circle cx="50" cy="50" r="6" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.17"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.12"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <p class="section-title">Evals & <em>Measurement</em></p>
+
+    <div class="section">
+      <p class="lead">
+        Without measurement, every prompt change is a coin flip. <strong>Evals are the difference between engineering and guessing.</strong> They turn intelligence work from an art into a science — or at least a craft with feedback loops.
+      </p>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/></g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12"><use href="#gear12" fill="var(--ink)"/><circle cx="50" cy="50" r="16" fill="var(--cream)"/><circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>What to measure</h2>
+
+      <div class="capability-grid">
+        <div class="capability">
+          <p class="capability-label">Decision Quality</p>
+          <h2>Did it choose right?</h2>
+          <p>Given the context and the task, did the agent make the decision a competent human would make? Build golden sets: curated examples where you know what the right answer is, and score against them.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">Task Completion</p>
+          <h2>Did it finish the job?</h2>
+          <p>Binary but important. Did the email get drafted? Did the meeting get scheduled? Track completion rate and identify where tasks stall.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">Faithfulness</p>
+          <h2>Did it stay true to the context?</h2>
+          <p>Did it use the information provided or hallucinate? Did it follow the constraints or ignore them? Faithfulness to context is the most measurable aspect of intelligence.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">User Trust Signals</p>
+          <h2>Did they accept it?</h2>
+          <p>The ultimate eval: did the user send the draft as-is, edit it heavily, or throw it away? Every user interaction is an implicit evaluation.</p>
+        </div>
+
+        <div class="capability">
+          <p class="capability-label">Calibration</p>
+          <h2>Does it know what it doesn't know?</h2>
+          <p>When the agent says "I'm confident," is it right? Calibration — the alignment between stated confidence and actual accuracy — is one of the most underrated metrics.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13"><use href="#gear10" fill="var(--ink)"/><circle cx="50" cy="50" r="15" fill="var(--cream)"/><circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/></g>
+      </svg>
+    </div>
+
+    <div class="section">
+      <h2>The eval stack</h2>
+
+      <div class="principle">
+        <h2>Golden sets</h2>
+        <p>Curated input/output pairs where you've defined what "good" looks like. Start small — 20-30 cases. Expand as you discover edge cases. Every bug report is a potential golden set entry.</p>
+      </div>
+
+      <div class="principle">
+        <h2>Regression suites</h2>
+        <p>Before you change anything, run the suite. After, run it again. Did the thing you fixed actually improve? Did anything else break? Table stakes in software engineering. Should be table stakes in intelligence work.</p>
+      </div>
+
+      <div class="principle">
+        <h2>A/B comparison</h2>
+        <p>Same input, two different prompts. Which scores higher against your golden set? Which gets more user accepts? Controlled comparison beats gut feeling.</p>
+      </div>
+
+      <div class="principle">
+        <h2>Traces & decision logs</h2>
+        <p>Record the full reasoning path. When something goes wrong, the trace tells you <em>why</em>. Without traces, debugging intelligence is archaeology.</p>
+      </div>
+
+      <div class="principle">
+        <h2>Human-in-the-loop eval</h2>
+        <p>User corrections are the highest-signal eval data. The diff between original and edited version tells you exactly where the agent got it wrong. Collect these systematically.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p>The measure of intelligence isn't what the system prompt says. It's whether the user trusted the output enough to act on it.</p>
+    </div>
+
+
+    <!-- ╔══════════════════════════════════════════════════════╗
+         ║  CLOSING                                             ║
+         ╚══════════════════════════════════════════════════════╝ -->
+
+    <div class="gear-divider" style="padding: 80px 0 0;">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.10"><use href="#gear8" fill="var(--ink)"/><circle cx="50" cy="50" r="14" fill="var(--cream)"/></g>
+      </svg>
+      <svg width="11" height="11" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.08"><use href="#gear6" fill="var(--ink)"/><circle cx="50" cy="50" r="12" fill="var(--cream)"/></g>
+      </svg>
+    </div>
+
     <div class="section">
       <p>
         The measure of intelligence isn't the complexity of the system prompt. It's the quality of the decisions that come out the other end. Every prompt change, every workflow tweak, every new heuristic gets tested against one question: <strong>did the agent make a better decision?</strong>
       </p>
     </div>
 
-    <!-- ═══ Colophon ═══ -->
     <div class="colophon">
-      Sauna &middot; Agent Intelligence &middot; DRI: Dom Vinyard
+      Agent Intelligence &middot; DRI: Dom Vinyard
     </div>
 
   </div>
