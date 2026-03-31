@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Context Engineering — Agent Intelligence</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F5F0E8;
+      --cream-dark: #EDE7DB;
+      --ink: #1A1714;
+      --ink-light: #4A453D;
+      --ink-faint: #8A8478;
+      --accent: #C4A882;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 120px 24px 160px;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3.2rem, 7vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3em;
+      color: var(--ink);
+    }
+
+    h1 em { font-style: italic; color: var(--ink-light); }
+
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.3;
+      margin-top: 0;
+      margin-bottom: 0.6em;
+      color: var(--ink);
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.8em;
+    }
+
+    p { margin-bottom: 1.5em; color: var(--ink-light); }
+
+    p.lead {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--ink);
+      font-weight: 300;
+    }
+
+    strong { font-weight: 500; color: var(--ink); }
+
+    .gear-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 0;
+      gap: 6px;
+    }
+
+    .gear-divider svg { flex-shrink: 0; overflow: visible; }
+
+    @keyframes spin-cw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+    .spin-cw { animation: spin-cw 30s linear infinite; transform-origin: center; }
+    .spin-ccw { animation: spin-ccw 22s linear infinite; transform-origin: center; }
+    .spin-cw-slow { animation: spin-cw 50s linear infinite; transform-origin: center; }
+
+    .section { margin-bottom: 0; }
+
+    .clean-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5em 0;
+    }
+    .clean-list li {
+      padding: 0.4em 0;
+      color: var(--ink-light);
+      border-bottom: 1px solid rgba(26, 23, 20, 0.06);
+    }
+    .clean-list li:last-child { border-bottom: none; }
+
+    /* Callout box */
+    .callout {
+      margin: 40px 0;
+      padding: 32px;
+      border: 1px solid rgba(196, 168, 130, 0.3);
+      border-radius: 4px;
+      background: rgba(196, 168, 130, 0.06);
+    }
+
+    .callout p {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.3rem;
+      line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    /* Timeline / layers */
+    .context-layers {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin: 32px 0 1.5em;
+    }
+
+    .context-layer {
+      padding: 24px 28px;
+      border-left: 2px solid rgba(26, 23, 20, 0.08);
+      position: relative;
+    }
+
+    .context-layer::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 24px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .context-layer h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.4em;
+    }
+
+    .context-layer p {
+      font-size: 0.95rem;
+      margin-bottom: 0.6em;
+    }
+
+    .context-layer p:last-child { margin-bottom: 0; }
+
+    .layer-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .nav {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      margin-bottom: 60px;
+    }
+
+    .nav a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 23, 20, 0.12);
+    }
+
+    .nav a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+    .colophon {
+      margin-top: 100px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(26, 23, 20, 0.08);
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 80px 20px 120px; }
+      .subtitle { margin-bottom: 60px; }
+      .gear-divider { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+    <defs>
+      <path id="gear8" d="M 84.33 43.17 L 96.48 43.01 L 96.48 56.99 L 84.33 56.83 L 79.10 69.44 L 87.81 77.92 L 77.92 87.81 L 69.44 79.10 L 56.83 84.33 L 56.99 96.48 L 43.01 96.48 L 43.17 84.33 L 30.56 79.10 L 22.08 87.81 L 12.19 77.92 L 20.90 69.44 L 15.67 56.83 L 3.52 56.99 L 3.52 43.01 L 15.67 43.17 L 20.90 30.56 L 12.19 22.08 L 22.08 12.19 L 30.56 20.90 L 43.17 15.67 L 43.01 3.52 L 56.99 3.52 L 56.83 15.67 L 69.44 20.90 L 77.92 12.19 L 87.81 22.08 L 79.10 30.56 Z"/>
+      <path id="gear12" d="M 86.68 45.17 L 96.77 45.33 L 96.77 54.67 L 86.68 54.83 L 84.18 64.16 L 92.84 69.34 L 88.17 77.43 L 79.35 72.52 L 72.52 79.35 L 77.43 88.17 L 69.34 92.84 L 64.16 84.18 L 54.83 86.68 L 54.67 96.77 L 45.33 96.77 L 45.17 86.68 L 35.84 84.18 L 30.66 92.84 L 22.57 88.17 L 27.48 79.35 L 20.65 72.52 L 11.83 77.43 L 7.16 69.34 L 15.82 64.16 L 13.32 54.83 L 3.23 54.67 L 3.23 45.33 L 13.32 45.17 L 15.82 35.84 L 7.16 30.66 L 11.83 22.57 L 20.65 27.48 L 27.48 20.65 L 22.57 11.83 L 30.66 7.16 L 35.84 15.82 L 45.17 13.32 L 45.33 3.23 L 54.67 3.23 L 54.83 13.32 L 64.16 15.82 L 69.34 7.16 L 77.43 11.83 L 72.52 20.65 L 79.35 27.48 L 88.17 22.57 L 92.84 30.66 L 84.18 35.84 Z"/>
+      <path id="gear6" d="M 81.88 41.46 L 96.07 40.71 L 96.07 59.29 L 81.88 58.54 L 73.33 73.33 L 81.08 85.26 L 64.99 94.55 L 58.54 81.88 L 41.46 81.88 L 35.01 94.55 L 18.92 85.26 L 26.67 73.33 L 18.12 58.54 L 3.93 59.29 L 3.93 40.71 L 18.12 41.46 L 26.67 26.67 L 18.92 14.74 L 35.01 5.45 L 41.46 18.12 L 58.54 18.12 L 64.99 5.45 L 81.08 14.74 L 73.33 26.67 Z"/>
+      <path id="gear10" d="M 85.56 44.37 L 96.67 44.40 L 96.67 55.60 L 85.56 55.63 L 82.08 66.34 L 91.04 72.90 L 84.46 81.96 L 75.46 75.46 L 66.34 82.08 L 69.74 92.65 L 59.10 96.11 L 55.63 85.56 L 44.37 85.56 L 40.90 96.11 L 30.26 92.65 L 33.66 82.08 L 24.54 75.46 L 15.54 81.96 L 8.96 72.90 L 17.92 66.34 L 14.44 55.63 L 3.33 55.60 L 3.33 44.40 L 14.44 44.37 L 17.92 33.66 L 8.96 27.10 L 15.54 18.04 L 24.54 24.54 L 33.66 17.92 L 30.26 7.35 L 40.90 3.89 L 44.37 14.44 L 55.63 14.44 L 59.10 3.89 L 69.74 7.35 L 66.34 17.92 L 75.46 24.54 L 84.46 18.04 L 91.04 27.10 L 82.08 33.66 Z"/>
+    </defs>
+  </svg>
+
+  <div class="page">
+
+    <p class="nav"><a href="index.html">Agent Intelligence</a> · Context Engineering</p>
+
+    <!-- ═══ Title ═══ -->
+    <h1>Context <em>Engineering</em></h1>
+    <p class="subtitle">Intelligence is commoditizing. Context is the moat.</p>
+
+    <!-- ═══ Opening ═══ -->
+    <div class="section">
+      <p class="lead">
+        Every major AI lab is racing to build the most intelligent model. They'll keep getting smarter — Claude, GPT, Gemini, the next hundred models. Intelligence will commoditize. It's happening already. So what doesn't commoditize? <strong>The context you give it to reason over.</strong>
+      </p>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/>
+        </g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Thesis ═══ -->
+    <div class="section">
+      <h2>The thesis</h2>
+      <p>
+        Two identical models — same weights, same capabilities — will produce vastly different results depending on what context they're given. One has your emails, calendar, Slack, meeting history, preferences, and work patterns. The other has nothing. Same intelligence. Completely different outcomes.
+      </p>
+      <p>
+        This is the bet. Not that we'll build a smarter model than OpenAI or Anthropic — we won't. But that we'll build a system where any model becomes <strong>dramatically more useful</strong> because of the context we provide. The model is the engine. Context is the fuel. We're building the fuel system.
+      </p>
+
+      <div class="callout">
+        <p>After 90 days with Sauna, users can't go back to ChatGPT. Not because Sauna is smarter. Because Sauna <em>knows</em> them.</p>
+      </div>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ What is Context ═══ -->
+    <div class="section">
+      <h2>What counts as context</h2>
+      <p>
+        Context is everything the model needs to make a good decision that isn't built into its weights. It's broader than people think.
+      </p>
+
+      <div class="context-layers">
+
+        <div class="context-layer">
+          <p class="layer-label">Immediate</p>
+          <h2>The current task</h2>
+          <p>What the user just asked. The document they're looking at. The email they're replying to. This is the obvious layer — what's in front of you right now.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Session</p>
+          <h2>The conversation so far</h2>
+          <p>Previous turns in this session. What's been discussed, decided, discarded. The thread of reasoning that led here. Continuity within a single interaction.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Personal</p>
+          <h2>Who you are</h2>
+          <p>Preferences, style, priorities, past decisions. How you like emails written. Which meetings you care about. What "urgent" means to you specifically. This layer accumulates over weeks and months.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Organizational</p>
+          <h2>Where you work</h2>
+          <p>Team structure, project status, company terminology, internal processes. Who's responsible for what. What happened in the last board meeting. The institutional knowledge that lives in Slack threads and people's heads.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Temporal</p>
+          <h2>What's happening now</h2>
+          <p>Calendar events, deadlines, recent communications, time-sensitive information. Context has a clock. What mattered yesterday might not matter today. What's irrelevant now might be critical in two hours.</p>
+        </div>
+
+        <div class="context-layer">
+          <p class="layer-label">Relational</p>
+          <h2>Who you're talking to</h2>
+          <p>The relationship with the recipient. History with this person or company. Tone calibration — how you talk to your investor vs. your teammate vs. your friend. Every communication has an audience.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Compounding Effect ═══ -->
+    <div class="section">
+      <h2>The compounding effect</h2>
+      <p>
+        Here's what makes context engineering different from prompt engineering: <strong>context compounds</strong>. Every interaction teaches the system something. Every email processed, every preference expressed, every correction made — it all accumulates.
+      </p>
+      <p>
+        Day 1: the agent is smart but generic. It writes decent emails but they don't sound like you. Day 30: it knows your style, your recurring meetings, your top priorities. Day 90: it anticipates what you need before you ask. It drafts the board update because it saw the calendar event and knows the format from last quarter.
+      </p>
+      <p>
+        This is the switching cost. Not lock-in through proprietary formats or data traps — lock-in through <strong>accumulated understanding</strong>. A new tool starts from zero. Sauna has 90 days of you.
+      </p>
+      <p>
+        This is also the moat. Intelligence you can swap — switch from Claude to GPT tomorrow, the capabilities are similar. Context you can't swap. It's yours, built over time, specific to your world. And we're the ones who built the system that accumulates it.
+      </p>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.15">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.11">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Window Problem ═══ -->
+    <div class="section">
+      <h2>The window problem</h2>
+      <p>
+        Context windows are finite. Even as they grow — 128K, 1M, 10M tokens — they'll never hold everything. And bigger windows don't solve the problem; they shift it. With 1M tokens, the question isn't "will it fit?" but "will the model <em>attend</em> to the right parts?"
+      </p>
+      <p>
+        This makes context engineering a curation problem. You can't dump everything in. You have to decide: what goes in this window, for this task, at this moment? What's relevant? What's noise? What should be summarized vs. included verbatim? What's missing that the model needs to ask about?
+      </p>
+      <p>
+        The best context engineering is invisible. The user doesn't think about what's in the window. They just notice that the agent seems to <em>understand</em> — that it knows the project, the people, the priorities. Behind the scenes, the system is making a hundred curation decisions per turn.
+      </p>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.13">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Discipline ═══ -->
+    <div class="section">
+      <h2>Context engineering as a discipline</h2>
+      <p>
+        "Prompt engineering" was the first phrase. It's already giving way to something broader. The prompt is one line of code. The context is the entire application state. Context engineering is the discipline of managing that state: what to collect, how to store it, when to retrieve it, how to present it to the model.
+      </p>
+      <p>
+        It draws from information retrieval, knowledge management, UX design, and data engineering. It asks questions like:
+      </p>
+      <ul class="clean-list">
+        <li>What information does this task require that the model doesn't have in its weights?</li>
+        <li>How do we represent user preferences so they're actionable, not just stored?</li>
+        <li>When context conflicts — an old preference vs. a new instruction — which wins?</li>
+        <li>How do we age context gracefully? What stays relevant and what fades?</li>
+        <li>How do we measure whether the context we provided actually improved the outcome?</li>
+      </ul>
+      <p>
+        Wordware's ambition is to be <strong>the world's leading context lab</strong>. The place where these questions get answered, where the best patterns are discovered and shipped into products that millions of people use without ever thinking about the engineering underneath.
+      </p>
+    </div>
+
+    <!-- Final gear -->
+    <div class="gear-divider" style="padding: 60px 0 0;">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.10">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+        </g>
+      </svg>
+      <svg width="11" height="11" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.08">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Closing ═══ -->
+    <div class="section">
+      <p>
+        Intelligence tells you how to think. Context tells you what to think about. The model brings the reasoning. We bring the world. <strong>Put them together and you get decisions that feel like they came from someone who actually knows you.</strong> That's the product. That's the moat. That's what we're building.
+      </p>
+    </div>
+
+    <div class="colophon">
+      Sauna · Agent Intelligence · Context Engineering
+    </div>
+
+  </div>
+</body>
+</html>

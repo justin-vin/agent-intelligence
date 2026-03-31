@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Agent Intelligence</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F5F0E8;
+      --cream-dark: #EDE7DB;
+      --ink: #1A1714;
+      --ink-light: #4A453D;
+      --ink-faint: #8A8478;
+      --accent: #C4A882;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 120px 24px 160px;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3.2rem, 7vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3em;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--ink-light);
+    }
+
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.3;
+      margin-top: 0;
+      margin-bottom: 0.6em;
+      color: var(--ink);
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.8em;
+    }
+
+    p {
+      margin-bottom: 1.5em;
+      color: var(--ink-light);
+    }
+
+    p.lead {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--ink);
+      font-weight: 300;
+    }
+
+    strong { font-weight: 500; color: var(--ink); }
+
+    /* ── Gear SVG System ── */
+    .gear-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 0;
+      gap: 6px;
+    }
+
+    .gear-divider svg { flex-shrink: 0; overflow: visible; }
+
+    @keyframes spin-cw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spin-ccw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    .spin-cw  { animation: spin-cw  30s linear infinite; transform-origin: center; }
+    .spin-ccw { animation: spin-ccw 22s linear infinite; transform-origin: center; }
+    .spin-cw-slow  { animation: spin-cw  50s linear infinite; transform-origin: center; }
+    .spin-ccw-slow { animation: spin-ccw 40s linear infinite; transform-origin: center; }
+    .spin-cw-fast  { animation: spin-cw  16s linear infinite; transform-origin: center; }
+
+    /* ── Diagrams ── */
+    .diagram {
+      margin: 48px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .diagram svg {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+    }
+
+    .territory-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .territory-sublabel {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.03); }
+    }
+    .pulse { animation: pulse-ring 4s ease-in-out infinite; }
+
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .flow-line {
+      stroke-dasharray: 6 4;
+      animation: dash-flow 1.5s linear infinite;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 0; }
+
+    /* ── List ── */
+    .clean-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5em 0;
+    }
+    .clean-list li {
+      padding: 0.4em 0;
+      color: var(--ink-light);
+      border-bottom: 1px solid rgba(26, 23, 20, 0.06);
+    }
+    .clean-list li:last-child { border-bottom: none; }
+
+    /* ── Timeline / Horizons ── */
+    .horizons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      margin: 20px 0 0;
+    }
+
+    .horizon {
+      padding-left: 28px;
+      border-left: 2px solid rgba(26, 23, 20, 0.08);
+      position: relative;
+    }
+
+    .horizon::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .horizon p {
+      margin-bottom: 0.8em;
+    }
+
+    .horizon-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .horizon h2 {
+      margin-bottom: 0.4em;
+      font-size: 1.4rem;
+    }
+
+    /* ── Navigation ── */
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin: 48px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-nav li a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--ink-faint);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 23, 20, 0.12);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .site-nav li a:hover {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* ── Colophon ── */
+    .colophon {
+      margin-top: 100px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(26, 23, 20, 0.08);
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page { padding: 80px 20px 120px; }
+      .subtitle { margin-bottom: 60px; }
+      .gear-divider { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Gear definitions (reusable) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+    <defs>
+      <!-- 8-tooth gear -->
+      <path id="gear8" d="M 84.33 43.17 L 96.48 43.01 L 96.48 56.99 L 84.33 56.83 L 79.10 69.44 L 87.81 77.92 L 77.92 87.81 L 69.44 79.10 L 56.83 84.33 L 56.99 96.48 L 43.01 96.48 L 43.17 84.33 L 30.56 79.10 L 22.08 87.81 L 12.19 77.92 L 20.90 69.44 L 15.67 56.83 L 3.52 56.99 L 3.52 43.01 L 15.67 43.17 L 20.90 30.56 L 12.19 22.08 L 22.08 12.19 L 30.56 20.90 L 43.17 15.67 L 43.01 3.52 L 56.99 3.52 L 56.83 15.67 L 69.44 20.90 L 77.92 12.19 L 87.81 22.08 L 79.10 30.56 Z"/>
+      <!-- 12-tooth gear -->
+      <path id="gear12" d="M 86.68 45.17 L 96.77 45.33 L 96.77 54.67 L 86.68 54.83 L 84.18 64.16 L 92.84 69.34 L 88.17 77.43 L 79.35 72.52 L 72.52 79.35 L 77.43 88.17 L 69.34 92.84 L 64.16 84.18 L 54.83 86.68 L 54.67 96.77 L 45.33 96.77 L 45.17 86.68 L 35.84 84.18 L 30.66 92.84 L 22.57 88.17 L 27.48 79.35 L 20.65 72.52 L 11.83 77.43 L 7.16 69.34 L 15.82 64.16 L 13.32 54.83 L 3.23 54.67 L 3.23 45.33 L 13.32 45.17 L 15.82 35.84 L 7.16 30.66 L 11.83 22.57 L 20.65 27.48 L 27.48 20.65 L 22.57 11.83 L 30.66 7.16 L 35.84 15.82 L 45.17 13.32 L 45.33 3.23 L 54.67 3.23 L 54.83 13.32 L 64.16 15.82 L 69.34 7.16 L 77.43 11.83 L 72.52 20.65 L 79.35 27.48 L 88.17 22.57 L 92.84 30.66 L 84.18 35.84 Z"/>
+      <!-- 6-tooth gear -->
+      <path id="gear6" d="M 81.88 41.46 L 96.07 40.71 L 96.07 59.29 L 81.88 58.54 L 73.33 73.33 L 81.08 85.26 L 64.99 94.55 L 58.54 81.88 L 41.46 81.88 L 35.01 94.55 L 18.92 85.26 L 26.67 73.33 L 18.12 58.54 L 3.93 59.29 L 3.93 40.71 L 18.12 41.46 L 26.67 26.67 L 18.92 14.74 L 35.01 5.45 L 41.46 18.12 L 58.54 18.12 L 64.99 5.45 L 81.08 14.74 L 73.33 26.67 Z"/>
+      <!-- 10-tooth gear -->
+      <path id="gear10" d="M 85.56 44.37 L 96.67 44.40 L 96.67 55.60 L 85.56 55.63 L 82.08 66.34 L 91.04 72.90 L 84.46 81.96 L 75.46 75.46 L 66.34 82.08 L 69.74 92.65 L 59.10 96.11 L 55.63 85.56 L 44.37 85.56 L 40.90 96.11 L 30.26 92.65 L 33.66 82.08 L 24.54 75.46 L 15.54 81.96 L 8.96 72.90 L 17.92 66.34 L 14.44 55.63 L 3.33 55.60 L 3.33 44.40 L 14.44 44.37 L 17.92 33.66 L 8.96 27.10 L 15.54 18.04 L 24.54 24.54 L 33.66 17.92 L 30.26 7.35 L 40.90 3.89 L 44.37 14.44 L 55.63 14.44 L 59.10 3.89 L 69.74 7.35 L 66.34 17.92 L 75.46 24.54 L 84.46 18.04 L 91.04 27.10 L 82.08 33.66 Z"/>
+      <!-- 16-tooth gear -->
+      <path id="gear16" d="M 88.81 46.18 L 96.87 46.50 L 96.87 53.50 L 88.81 53.82 L 87.32 61.32 L 94.64 64.70 L 91.96 71.17 L 84.39 68.38 L 80.15 74.74 L 85.62 80.66 L 80.66 85.62 L 74.74 80.15 L 68.38 84.39 L 71.17 91.96 L 64.70 94.64 L 61.32 87.32 L 53.82 88.81 L 53.50 96.87 L 46.50 96.87 L 46.18 88.81 L 38.68 87.32 L 35.30 94.64 L 28.83 91.96 L 31.62 84.39 L 25.26 80.15 L 19.34 85.62 L 14.38 80.66 L 19.85 74.74 L 15.61 68.38 L 8.04 71.17 L 5.36 64.70 L 12.68 61.32 L 11.19 53.82 L 3.13 53.50 L 3.13 46.50 L 11.19 46.18 L 12.68 38.68 L 5.36 35.30 L 8.04 28.83 L 15.61 31.62 L 19.85 25.26 L 14.38 19.34 L 19.34 14.38 L 25.26 19.85 L 31.62 15.61 L 28.83 8.04 L 35.30 5.36 L 38.68 12.68 L 46.18 11.19 L 46.50 3.13 L 53.50 3.13 L 53.82 11.19 L 61.32 12.68 L 64.70 5.36 L 71.17 8.04 L 68.38 15.61 L 74.74 19.85 L 80.66 14.38 L 85.62 19.34 L 80.15 25.26 L 84.39 31.62 L 91.96 28.83 L 94.64 35.30 L 87.32 38.68 Z"/>
+    </defs>
+  </svg>
+
+  <div class="page">
+
+    <!-- ═══ Title ═══ -->
+    <h1>What is<br>Agent <em>Intelligence</em></h1>
+    <p class="subtitle">Sauna</p>
+
+    <!-- ═══ Opening ═══ -->
+    <div class="section">
+      <p class="lead">
+        Agent intelligence is the <strong>inference layer</strong>. It's how a current context window generates the desired outcome, and how that context window updates its environment to prime the next one. The system prompt architecture, the decision logic, the operating workflow. The reasoning that turns a pile of context and tools into useful, trustworthy action, and then leaves the world in a better state for the next run.
+      </p>
+    </div>
+
+    <!-- ── Gear Divider: meshing pair ── -->
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/>
+        </g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Territory ═══ -->
+    <div class="section">
+      <h2>The territory</h2>
+      <p>
+        I like to think of Sauna as a stack with four layers. Intelligence sits second from the top: it expects a stable platform underneath and uses it to create amazing user experiences above. Everything about how tokens inform outcomes. The new programming.
+      </p>
+    </div>
+
+    <!-- ═══ The Stack: 4-Layer Chain ═══ -->
+    <div class="diagram">
+      <svg viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Layer 1: UX / Product -->
+        <rect x="110" y="10" width="300" height="56" rx="4" fill="none" stroke="var(--ink)" stroke-width="1" opacity="0.25"/>
+        <text x="260" y="34" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">UX / PRODUCT</text>
+        <text x="260" y="50" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">What users see and interact with</text>
+
+        <!-- Interface: UX ↔ Intelligence -->
+        <line x1="260" y1="66" x2="260" y2="90" class="flow-line" stroke="var(--accent)" stroke-width="1.5" opacity="0.4"/>
+
+        <!-- Layer 2: INTELLIGENCE (highlighted) -->
+        <rect x="80" y="90" width="360" height="66" rx="4" fill="var(--ink)" fill-opacity="0.05" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="260" y="118" text-anchor="middle" class="territory-label" fill="var(--ink)" font-size="12">INTELLIGENCE</text>
+        <text x="260" y="136" text-anchor="middle" class="territory-sublabel" fill="var(--ink-light)">Tokens to outcomes. The new programming.</text>
+
+        <!-- Interface: Intelligence ↔ Capabilities (THE critical interface) -->
+        <line x1="200" y1="156" x2="200" y2="190" class="flow-line" stroke="var(--accent)" stroke-width="2" opacity="0.7"/>
+        <line x1="320" y1="156" x2="320" y2="190" class="flow-line" stroke="var(--accent)" stroke-width="2" opacity="0.7"/>
+        <text x="450" y="177" class="territory-sublabel" fill="var(--accent)" font-style="italic" opacity="0.8">critical interface</text>
+
+        <!-- Layer 3: CAPABILITIES (the harness) -->
+        <rect x="110" y="190" width="300" height="56" rx="4" fill="var(--ink)" fill-opacity="0.03" stroke="var(--ink)" stroke-width="1" opacity="0.35"/>
+        <text x="260" y="214" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">CAPABILITIES</text>
+        <text x="260" y="230" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">The harness. Inference meets infrastructure.</text>
+
+        <!-- Interface: Capabilities ↔ Infrastructure -->
+        <line x1="260" y1="246" x2="260" y2="270" class="flow-line" stroke="var(--accent)" stroke-width="1" opacity="0.25"/>
+
+        <!-- Layer 4: INFRASTRUCTURE -->
+        <rect x="110" y="270" width="300" height="56" rx="4" fill="var(--ink)" fill-opacity="0.02" stroke="var(--ink)" stroke-width="1" opacity="0.2"/>
+        <text x="260" y="294" text-anchor="middle" class="territory-label" fill="var(--ink-faint)">INFRASTRUCTURE</text>
+        <text x="260" y="310" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">All the core stuff underneath.</text>
+
+
+
+      </svg>
+    </div>
+
+    <!-- ── Gear Divider: single small ── -->
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw-slow" opacity="0.13">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Decomposition ═══ -->
+    <div class="section">
+      <h2>What it contains</h2>
+      <ul class="clean-list">
+        <li><strong>System prompt architecture:</strong> the foundational instructions, operating workflow, rules, and behavioral scaffolding</li>
+        <li><strong>Reasoning quality:</strong> faithfulness to context, calibration of confidence, knowing when to stop</li>
+        <li><strong>Decision logic:</strong> when to ask vs. act, when to draft vs. execute, how to decompose tasks</li>
+        <li><strong>Packaged experience:</strong> skills, workflows, recipes, ways of unlocking value with the simplest possible UX</li>
+        <li><strong>Prompt iteration:</strong> testing, regression tracking, A/B comparison across prompt changes</li>
+        <li><strong>Evals:</strong> measuring decision quality, building baselines, knowing whether a change actually made things better</li>
+      </ul>
+    </div>
+
+
+
+    <!-- ── Gear Divider: triple mesh ── -->
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.12">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Critical Interface ═══ -->
+    <div class="section">
+      <h2>The critical interface</h2>
+      <p>
+        The boundary between intelligence and capabilities is where most failures happen. Intelligence decides what to do; capabilities determines whether the platform can execute it. When the agent reasons about using a tool, drafts a plan, or sequences multi-step actions, that's intelligence. When the tool actually runs, when the API call fires, when the runtime handles retries and timeouts, that's capabilities. The harness.
+      </p>
+      <p>
+        Intelligence expects a <strong>stable surface</strong>. It shouldn't need to worry about whether a tool is available, whether auth works, whether the sandbox is running. It just needs to know: I can call this, it will work, here's what comes back. The better that contract is, the more intelligence can focus on what actually matters: making good decisions about what to do and when.
+      </p>
+      <p>
+        Above us, UX and product shape what the user sees. Intelligence is invisible to the user. They experience the outcome, not the reasoning. Our job is to make the reasoning so good that the product team has a powerful engine to build on top of.
+      </p>
+    </div>
+
+    <!-- ── Gear Divider: meshing pair offset ── -->
+    <div class="gear-divider">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.15">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.11">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Horizons ═══ -->
+    <div class="section">
+      <h2>The roadmap</h2>
+
+      <div class="horizons">
+
+        <!-- ── Short Term ── -->
+        <div class="horizon">
+          <p class="horizon-label">Short term</p>
+          <h2>Make it useful, make it measurable</h2>
+          <p>
+            FTUE and skills. The first-run experience has to land: a new user should feel the intelligence immediately. Skills are the lever, packaged workflows that make the agent powerful out of the box. Every skill we ship compounds the value of the platform.
+          </p>
+          <p>
+            Evals and observability. Right now we're flying blind. We need baselines, regression suites, and real instrumentation so we can iterate on intelligence with actual insight and evidence instead of vibes.
+          </p>
+        </div>
+
+        <!-- ── Medium Term ── -->
+        <div class="horizon">
+          <p class="horizon-label">Medium term</p>
+          <h2>The world's leading context lab</h2>
+          <p>
+            Stay aligned with the industry as it grows. Context engineering is becoming the discipline, and we need to decide what to adopt, what to ignore, and where to lead. The window, the memory, the tools, the file system, the integrations: all of it is context, and intelligence is the thing that reasons over it.
+          </p>
+          <p>
+            Make Wordware the world's leading context lab. The place where the best context engineering happens, where the best patterns are discovered and shipped.
+          </p>
+        </div>
+
+        <!-- ── Long Term ── -->
+        <div class="horizon">
+          <p class="horizon-label">Long term</p>
+          <h2>AGI</h2>
+          <p>
+            Fucking AGI.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══ Horizon Timeline Diagram ═══ -->
+    <div class="diagram">
+      <svg viewBox="0 0 500 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Main timeline -->
+        <line x1="30" y1="45" x2="470" y2="45" stroke="var(--ink)" stroke-width="1" opacity="0.12"/>
+
+        <!-- Now dot -->
+        <circle cx="50" cy="45" r="5" fill="var(--accent)" opacity="0.8"/>
+        <text x="50" y="33" text-anchor="middle" class="territory-sublabel" fill="var(--ink-faint)">now</text>
+
+        <!-- Short -->
+        <circle cx="170" cy="45" r="3.5" fill="var(--ink)" opacity="0.2"/>
+        <text x="110" y="75" text-anchor="middle" class="territory-label" fill="var(--ink)" font-size="9">SHORT</text>
+
+        <!-- Medium -->
+        <circle cx="310" cy="45" r="3.5" fill="var(--ink)" opacity="0.15"/>
+        <text x="240" y="75" text-anchor="middle" class="territory-label" fill="var(--ink-faint)" font-size="9">MEDIUM</text>
+
+        <!-- Long -->
+        <circle cx="450" cy="45" r="3.5" fill="var(--ink)" opacity="0.1"/>
+        <text x="380" y="75" text-anchor="middle" class="territory-label" fill="var(--ink-faint)" font-size="9">LONG</text>
+
+        <!-- Progress fill -->
+        <line x1="50" y1="45" x2="170" y2="45" stroke="var(--accent)" stroke-width="2.5" opacity="0.35" stroke-linecap="round"/>
+        <line x1="170" y1="45" x2="310" y2="45" stroke="var(--accent)" stroke-width="1.5" opacity="0.15" stroke-dasharray="6 4"/>
+        <line x1="310" y1="45" x2="450" y2="45" stroke="var(--accent)" stroke-width="1" opacity="0.08" stroke-dasharray="6 4"/>
+      </svg>
+    </div>
+
+    <!-- ── Final Gear Divider ── -->
+    <div class="gear-divider" style="padding: 60px 0 0;">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.10">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+        </g>
+      </svg>
+      <svg width="11" height="11" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.08">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Explore ═══ -->
+    <div class="section">
+      <h2>Explore the domain</h2>
+      <ul class="site-nav">
+        <li><a href="what-agents-do.html">What Agents Can Do</a></li>
+        <li><a href="prompting-strategy.html">Prompting Strategy</a></li>
+        <li><a href="context-engineering.html">Context Engineering</a></li>
+        <li><a href="evals.html">Evals & Measurement</a></li>
+        <li><a href="skills.html">Skills & Recipes</a></li>
+        <li><a href="the-stack.html">The Stack</a></li>
+      </ul>
+    </div>
+
+    <!-- ═══ Closing ═══ -->
+    <div class="section">
+      <p>
+        The measure of intelligence isn't the complexity of the system prompt. It's the quality of the decisions that come out the other end. Every prompt change, every workflow tweak, every new heuristic gets tested against one question: <strong>did the agent make a better decision?</strong>
+      </p>
+    </div>
+
+    <!-- ═══ Colophon ═══ -->
+    <div class="colophon">
+      Sauna &middot; Agent Intelligence &middot; DRI: Dom Vinyard
+    </div>
+
+  </div>
+</body>
+</html>

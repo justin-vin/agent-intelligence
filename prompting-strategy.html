@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompting Strategy — Agent Intelligence</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream: #F5F0E8;
+      --cream-dark: #EDE7DB;
+      --ink: #1A1714;
+      --ink-light: #4A453D;
+      --ink-faint: #8A8478;
+      --accent: #C4A882;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 300;
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 120px 24px 160px;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(3.2rem, 7vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.3em;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--ink-light);
+    }
+
+    .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-weight: 400;
+      font-size: 1.6rem;
+      line-height: 1.3;
+      margin-top: 0;
+      margin-bottom: 0.6em;
+      color: var(--ink);
+    }
+
+    h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.8em;
+    }
+
+    p {
+      margin-bottom: 1.5em;
+      color: var(--ink-light);
+    }
+
+    p.lead {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--ink);
+      font-weight: 300;
+    }
+
+    strong { font-weight: 500; color: var(--ink); }
+
+    /* Gear dividers */
+    .gear-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 0;
+      gap: 6px;
+    }
+
+    .gear-divider svg { flex-shrink: 0; overflow: visible; }
+
+    @keyframes spin-cw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spin-ccw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    .spin-cw { animation: spin-cw 30s linear infinite; transform-origin: center; }
+    .spin-ccw { animation: spin-ccw 22s linear infinite; transform-origin: center; }
+    .spin-cw-slow { animation: spin-cw 50s linear infinite; transform-origin: center; }
+
+    .section { margin-bottom: 0; }
+
+    .clean-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5em 0;
+    }
+    .clean-list li {
+      padding: 0.4em 0;
+      color: var(--ink-light);
+      border-bottom: 1px solid rgba(26, 23, 20, 0.06);
+    }
+    .clean-list li:last-child { border-bottom: none; }
+
+    /* Principle blocks */
+    .principle {
+      margin: 40px 0;
+      padding: 28px 28px 28px 32px;
+      border-left: 2px solid var(--accent);
+      background: rgba(196, 168, 130, 0.04);
+    }
+
+    .principle h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.4em;
+    }
+
+    .principle p {
+      font-size: 0.95rem;
+      margin-bottom: 0.6em;
+    }
+
+    .principle p:last-child { margin-bottom: 0; }
+
+    /* Anti-pattern callout */
+    .antipattern {
+      margin: 32px 0;
+      padding: 24px 28px;
+      border: 1px solid rgba(26, 23, 20, 0.08);
+      border-radius: 4px;
+      background: rgba(26, 23, 20, 0.02);
+    }
+
+    .antipattern-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 8px;
+    }
+
+    .antipattern p {
+      font-size: 0.95rem;
+      margin-bottom: 0.6em;
+    }
+
+    .antipattern p:last-child { margin-bottom: 0; }
+
+    /* Comparison */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 32px 0 1.5em;
+    }
+
+    .comparison-col {
+      padding: 20px;
+      border: 1px solid rgba(26, 23, 20, 0.06);
+      border-radius: 4px;
+    }
+
+    .comparison-col h3 {
+      margin-bottom: 0.6em;
+    }
+
+    .comparison-col p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 0.5em;
+    }
+
+    .comparison-col p:last-child { margin-bottom: 0; }
+
+    /* Nav */
+    .nav {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink-faint);
+      margin-bottom: 60px;
+    }
+
+    .nav a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(26, 23, 20, 0.12);
+    }
+
+    .nav a:hover {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    .colophon {
+      margin-top: 100px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(26, 23, 20, 0.08);
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 80px 20px 120px; }
+      .subtitle { margin-bottom: 60px; }
+      .gear-divider { padding: 40px 0; }
+      .comparison { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Gear definitions -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+    <defs>
+      <path id="gear8" d="M 84.33 43.17 L 96.48 43.01 L 96.48 56.99 L 84.33 56.83 L 79.10 69.44 L 87.81 77.92 L 77.92 87.81 L 69.44 79.10 L 56.83 84.33 L 56.99 96.48 L 43.01 96.48 L 43.17 84.33 L 30.56 79.10 L 22.08 87.81 L 12.19 77.92 L 20.90 69.44 L 15.67 56.83 L 3.52 56.99 L 3.52 43.01 L 15.67 43.17 L 20.90 30.56 L 12.19 22.08 L 22.08 12.19 L 30.56 20.90 L 43.17 15.67 L 43.01 3.52 L 56.99 3.52 L 56.83 15.67 L 69.44 20.90 L 77.92 12.19 L 87.81 22.08 L 79.10 30.56 Z"/>
+      <path id="gear12" d="M 86.68 45.17 L 96.77 45.33 L 96.77 54.67 L 86.68 54.83 L 84.18 64.16 L 92.84 69.34 L 88.17 77.43 L 79.35 72.52 L 72.52 79.35 L 77.43 88.17 L 69.34 92.84 L 64.16 84.18 L 54.83 86.68 L 54.67 96.77 L 45.33 96.77 L 45.17 86.68 L 35.84 84.18 L 30.66 92.84 L 22.57 88.17 L 27.48 79.35 L 20.65 72.52 L 11.83 77.43 L 7.16 69.34 L 15.82 64.16 L 13.32 54.83 L 3.23 54.67 L 3.23 45.33 L 13.32 45.17 L 15.82 35.84 L 7.16 30.66 L 11.83 22.57 L 20.65 27.48 L 27.48 20.65 L 22.57 11.83 L 30.66 7.16 L 35.84 15.82 L 45.17 13.32 L 45.33 3.23 L 54.67 3.23 L 54.83 13.32 L 64.16 15.82 L 69.34 7.16 L 77.43 11.83 L 72.52 20.65 L 79.35 27.48 L 88.17 22.57 L 92.84 30.66 L 84.18 35.84 Z"/>
+      <path id="gear6" d="M 81.88 41.46 L 96.07 40.71 L 96.07 59.29 L 81.88 58.54 L 73.33 73.33 L 81.08 85.26 L 64.99 94.55 L 58.54 81.88 L 41.46 81.88 L 35.01 94.55 L 18.92 85.26 L 26.67 73.33 L 18.12 58.54 L 3.93 59.29 L 3.93 40.71 L 18.12 41.46 L 26.67 26.67 L 18.92 14.74 L 35.01 5.45 L 41.46 18.12 L 58.54 18.12 L 64.99 5.45 L 81.08 14.74 L 73.33 26.67 Z"/>
+      <path id="gear10" d="M 85.56 44.37 L 96.67 44.40 L 96.67 55.60 L 85.56 55.63 L 82.08 66.34 L 91.04 72.90 L 84.46 81.96 L 75.46 75.46 L 66.34 82.08 L 69.74 92.65 L 59.10 96.11 L 55.63 85.56 L 44.37 85.56 L 40.90 96.11 L 30.26 92.65 L 33.66 82.08 L 24.54 75.46 L 15.54 81.96 L 8.96 72.90 L 17.92 66.34 L 14.44 55.63 L 3.33 55.60 L 3.33 44.40 L 14.44 44.37 L 17.92 33.66 L 8.96 27.10 L 15.54 18.04 L 24.54 24.54 L 33.66 17.92 L 30.26 7.35 L 40.90 3.89 L 44.37 14.44 L 55.63 14.44 L 59.10 3.89 L 69.74 7.35 L 66.34 17.92 L 75.46 24.54 L 84.46 18.04 L 91.04 27.10 L 82.08 33.66 Z"/>
+    </defs>
+  </svg>
+
+  <div class="page">
+
+    <p class="nav"><a href="index.html">Agent Intelligence</a> · Prompting Strategy</p>
+
+    <!-- ═══ Title ═══ -->
+    <h1>Prompting <em>Strategy</em></h1>
+    <p class="subtitle">The craft of deterministic intent, probabilistic execution</p>
+
+    <!-- ═══ Opening ═══ -->
+    <div class="section">
+      <p class="lead">
+        A prompt is a program written in natural language. It has <strong>intent</strong> (what you want), <strong>constraints</strong> (what you don't want), and <strong>context</strong> (what the model needs to know). The difference between a good prompt and a bad one isn't cleverness — it's clarity. The model will try to do exactly what you ask. The hard part is asking for exactly what you mean.
+      </p>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.16">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.3"/>
+        </g>
+      </svg>
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.12">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ The Spectrum ═══ -->
+    <div class="section">
+      <h2>The prompting spectrum</h2>
+      <p>
+        Not all prompting is the same activity. There's a spectrum from rigid instruction to open collaboration, and the right approach depends on what you're building.
+      </p>
+
+      <div class="comparison">
+        <div class="comparison-col">
+          <h3>Instruction</h3>
+          <p>"Do exactly this, in this order, with these constraints."</p>
+          <p>High control, low flexibility. Best for defined workflows, data transformation, format enforcement. The agent is an executor.</p>
+        </div>
+        <div class="comparison-col">
+          <h3>Collaboration</h3>
+          <p>"Here's the goal and context. Figure out the approach."</p>
+          <p>Low control, high flexibility. Best for research, exploration, creative work. The agent is a partner.</p>
+        </div>
+      </div>
+
+      <p>
+        Most production prompting lives in the middle: <strong>guided autonomy</strong>. You set the boundaries, define the goal, provide the context — then let the model choose how to get there within those constraints. Think of it as hiring: you describe the role, not every task.
+      </p>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.13">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Principles ═══ -->
+    <div class="section">
+      <h2>Seven principles</h2>
+
+      <div class="principle">
+        <h2>1. Teach, don't tell</h2>
+        <p>The best system prompts describe a <em>role</em> and a <em>way of thinking</em>, not a list of rules for every situation. A prompt that says "you are a careful editor who values clarity over cleverness" will generalize better than one that enumerates 50 editing rules.</p>
+        <p>Rules are brittle. Mental models are flexible. Invest in shaping how the agent thinks, not just what it does.</p>
+      </div>
+
+      <div class="principle">
+        <h2>2. Context is king</h2>
+        <p>A mediocre prompt with excellent context will outperform a brilliant prompt with no context, every time. The model's reasoning is only as good as the information it has. Before optimizing your instructions, ask: does the model have everything it needs to make a good decision?</p>
+        <p>This is why <strong>context engineering</strong> matters more than prompt engineering. The prompt is the steering wheel. Context is the road.</p>
+      </div>
+
+      <div class="principle">
+        <h2>3. Be specific about what "good" looks like</h2>
+        <p>Vague instructions produce vague results. "Write a good email" is almost useless. "Write a 3-paragraph email to an investor, professional but warm, acknowledging their concern about burn rate and redirecting to our 70-month runway" gives the model something to work with.</p>
+        <p>The more concrete your success criteria, the better the output. Include examples when possible — they're worth more than paragraphs of instruction.</p>
+      </div>
+
+      <div class="principle">
+        <h2>4. Separate concerns</h2>
+        <p>System prompts, user prompts, and context serve different purposes. Don't mix them. The system prompt defines the agent's character and constraints. User messages carry the immediate task. Context provides the information needed to execute.</p>
+        <p>When these get tangled — behavioral instructions in user messages, context in system prompts, tasks in both — the model struggles to prioritize and contradictions emerge.</p>
+      </div>
+
+      <div class="principle">
+        <h2>5. Design for the failure mode</h2>
+        <p>Every prompt has a failure mode. The question isn't whether it will fail — it's whether the failure is graceful. A good prompt anticipates the edge cases: what should the agent do when it's unsure? When data is missing? When instructions conflict?</p>
+        <p>"If you're not confident, say so and explain why" is worth more than 10 lines of happy-path instructions.</p>
+      </div>
+
+      <div class="principle">
+        <h2>6. Iterate with evidence</h2>
+        <p>Prompt development is empirical, not theoretical. Write a prompt, test it against real cases, observe the failures, adjust. Keep a test suite of inputs and expected outputs. When you change something, run the suite. Did it get better? Did anything regress?</p>
+        <p>Intuition helps you write the first draft. Evidence helps you write the tenth.</p>
+      </div>
+
+      <div class="principle">
+        <h2>7. Less is more (usually)</h2>
+        <p>Long prompts aren't necessarily better prompts. Every additional instruction competes for attention in the context window. The model can follow 5 clear rules better than 50 overlapping ones. When in doubt, cut.</p>
+        <p>The exception: examples. Examples can be long. They're the highest-bandwidth way to communicate intent. One good example is worth a paragraph of explanation.</p>
+      </div>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.14">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.11">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw-slow" opacity="0.12">
+          <use href="#gear10" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="15" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="5" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Anti-patterns ═══ -->
+    <div class="section">
+      <h2>Common anti-patterns</h2>
+
+      <div class="antipattern">
+        <p class="antipattern-label">The instruction novel</p>
+        <p>System prompts that try to cover every possible scenario with explicit rules. 10,000 tokens of instructions that the model can't possibly follow all at once. The fix: distill to principles, use examples for edge cases, and accept that some judgment calls are better left to the model.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Contradictory constraints</p>
+        <p>"Be concise but thorough. Be creative but stick to the facts. Be formal but friendly." Every contradiction forces the model to choose, and it might not choose the way you'd want. When you catch yourself writing "but," that's a signal to clarify your actual priority.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Negative instructions</p>
+        <p>"Don't use jargon. Don't be condescending. Don't start with 'I.'" Negatives are processed less reliably than positives. Instead of "don't use jargon," try "use plain language that a smart non-expert would understand." Tell the model what to do, not what to avoid.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">Context starvation</p>
+        <p>Brilliant instructions with no context. "Write the perfect follow-up email" without including the original email, the relationship context, or the desired outcome. The model will produce something generic because that's all you gave it to work with.</p>
+      </div>
+
+      <div class="antipattern">
+        <p class="antipattern-label">One-shot optimization</p>
+        <p>Spending hours perfecting a single prompt in isolation. Prompts live in systems — they interact with context, tools, and other prompts. Optimize the system, not the prompt. A mediocre prompt in a well-designed system beats a perfect prompt in a broken one.</p>
+      </div>
+    </div>
+
+    <!-- Gear divider -->
+    <div class="gear-divider">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.15">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4.5" fill="var(--ink)" opacity="0.25"/>
+        </g>
+      </svg>
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.11">
+          <use href="#gear12" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="16" fill="var(--cream)"/>
+          <circle cx="50" cy="50" r="4" fill="var(--ink)" opacity="0.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ System vs User ═══ -->
+    <div class="section">
+      <h2>System prompts vs. user prompts</h2>
+      <p>
+        These are different tools. Confusing them is one of the most common mistakes.
+      </p>
+      <p>
+        The <strong>system prompt</strong> is the agent's identity and operating manual. It defines character, constraints, capabilities, and default behaviors. It should be stable — not changing per-turn. Think of it as the job description: who you are, how you work, what your boundaries are.
+      </p>
+      <p>
+        The <strong>user prompt</strong> is the task. It changes every turn. It says what to do right now, with what inputs, toward what output. It can reference the system prompt's constraints ("following the format guidelines") but shouldn't redefine them.
+      </p>
+      <p>
+        <strong>Context</strong> is the raw material. Documents, conversation history, tool outputs, user preferences. It goes alongside the user prompt, not inside the system prompt. The system prompt should reference that context exists, not contain it.
+      </p>
+      <p>
+        When all three are clean and separated, the model knows what it is, what it's doing, and what it's working with. When they're tangled, you get confused outputs and unpredictable behavior.
+      </p>
+    </div>
+
+    <!-- Final gear -->
+    <div class="gear-divider" style="padding: 60px 0 0;">
+      <svg width="16" height="16" viewBox="0 0 100 100" fill="none">
+        <g class="spin-cw" opacity="0.10">
+          <use href="#gear8" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="14" fill="var(--cream)"/>
+        </g>
+      </svg>
+      <svg width="11" height="11" viewBox="0 0 100 100" fill="none">
+        <g class="spin-ccw" opacity="0.08">
+          <use href="#gear6" fill="var(--ink)"/>
+          <circle cx="50" cy="50" r="12" fill="var(--cream)"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ═══ Closing ═══ -->
+    <div class="section">
+      <p>
+        Prompting strategy isn't about tricks. It's not about "jailbreaks" or "magic words." It's about <strong>clear communication with a system that takes you literally</strong>. The models are getting better at understanding intent. But they'll always reward clarity, specificity, and good context. The best prompt engineers aren't the cleverest — they're the clearest thinkers.
+      </p>
+    </div>
+
+    <!-- ═══ Colophon ═══ -->
+    <div class="colophon">
+      Sauna · Agent Intelligence · Prompting Strategy
+    </div>
+
+  </div>
+</body>
+</html>
